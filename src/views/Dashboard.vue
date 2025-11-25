@@ -112,7 +112,8 @@ export default {
         })
         .catch((error) => {
           console.error("❌ Failed to fetch dashboard data:", error);
-          alert("خطا در ارتباط با سرور: " + error.message);
+          // حذف alert و نمایش فقط در کنسول
+          this.stats.devicesList = [];
         });
     },
 
@@ -124,11 +125,9 @@ export default {
         .then(() => {
           console.log("✅ Scenario executed successfully");
           this.fetchData();
-          alert("سناریوی محیطی با موفقیت اجرا شد.");
         })
         .catch((error) => {
           console.error("❌ Error triggering scenario:", error);
-          alert("خطا در اجرای سناریو: " + error.message);
         });
     },
 
@@ -143,7 +142,6 @@ export default {
         })
         .catch((error) => {
           console.error("❌ Error toggling device:", error);
-          alert("خطا در تغییر وضعیت دستگاه: " + error.message);
         });
     },
 
