@@ -1,21 +1,28 @@
 import axios from "axios";
 
-// 🧠 تعیین محیط بر اساس فایل .env
-const isProd = process.env.VUE_APP_MODE === "production";
-const baseURL = isProd
-  ? process.env.VUE_APP_API_PROD
-  : process.env.VUE_APP_API_LOCAL;
+// 📌 Auto detect mode: لوکال یا آنلاین
+let baseURL;
+if (process.env.VUE_APP_MODE === "production") {
+  baseURL = process.env.VUE_APP_API_PROD;
+} else if (process.env.VUE_APP_MODE === "development") {
+  baseURL = process.env.VUE_APP_API_LOCAL;
+} else {
+  // AUTO حالت: تشخیص بر اساس location.hostname
+  if (window.location.hostname === "localhost") {
+    baseURL = process.env.VUE_APP_API_LOCAL;
+  } else {
+    baseURL = process.env.VUE_APP_API_PROD;
+  }
+}
 
 console.log("🌐 Active Mode:", process.env.VUE_APP_MODE);
 console.log("🚀 BaseURL Used:", baseURL);
 
-// ساخت نمونه Axios
 const instance = axios.create({
   baseURL,
   timeout: 6000,
 });
 
-// 🧩 گرفتن پاسخ‌ها و مدیریت خطا
 instance.interceptors.response.use(
   (response) => {
     console.log("✅ Axios Response:", response.data);
