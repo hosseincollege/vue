@@ -1,21 +1,28 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import DashboardView from "../views/Dashboard.vue";
+// ایمپورت دستی صفحات جدید (اگر فایلش را نساختید، ارور می‌دهد پس حتما بسازید)
+import DevicesView from "../views/Devices.vue";
+import EnergyView from "../views/Energy.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "dashboard",
+    component: DashboardView,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/devices",
+    name: "devices",
+    component: DevicesView, // کامپوننت جدید
   },
+  {
+    path: "/energy",
+    name: "energy",
+    component: EnergyView, // کامپوننت جدید
+  },
+  // برای بقیه لینک‌ها فعلا ریدایرکت به داشبورد می‌گذاریم که خالی نماند
+  { path: "/security", redirect: "/" },
+  { path: "/settings", redirect: "/" },
 ];
 
 const router = createRouter({
