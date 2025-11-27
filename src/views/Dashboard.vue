@@ -8,7 +8,7 @@
       </div>
       <div class="actions">
         <button @click="fetchData" class="btn-primary" :disabled="loading">
-          <span v-if="loading" class="spinner">↻</span>
+          <span v-if="loading" class="spinner"></span>
           {{ loading ? 'در حال دریافت...' : 'بروزرسانی' }}
         </button>
         <button @click="simulateData" class="btn-secondary">
