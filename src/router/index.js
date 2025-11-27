@@ -1,33 +1,60 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DashboardView from "../views/Dashboard.vue";
-// ایمپورت دستی صفحات جدید (اگر فایلش را نساختید، ارور می‌دهد پس حتما بسازید)
-import DevicesView from "../views/Devices.vue";
-import EnergyView from "../views/Energy.vue";
+
+// صفحه اصلی (داشبورد) را مستقیم ایمپورت می‌کنیم تا سریع لود شود
+import Dashboard from "../views/Dashboard.vue";
 
 const routes = [
   {
     path: "/",
-    name: "dashboard",
-    component: DashboardView,
+    name: "Dashboard",
+    component: Dashboard,
+    meta: { title: "داشبورد | مدیریت هوشمند" },
   },
   {
     path: "/devices",
-    name: "devices",
-    component: DevicesView, // کامپوننت جدید
+    name: "Devices",
+    // لود تنبل (Lazy Load): فایل فقط زمانی دانلود می‌شود که نیاز باشد
+    component: () => import("../views/Devices.vue"),
+    meta: { title: "مدیریت تجهیزات | BMS" },
   },
   {
     path: "/energy",
-    name: "energy",
-    component: EnergyView, // کامپوننت جدید
+    name: "Energy",
+    component: () => import("../views/Energy.vue"),
+    meta: { title: "مصرف انرژی | BMS" },
   },
-  // برای بقیه لینک‌ها فعلا ریدایرکت به داشبورد می‌گذاریم که خالی نماند
-  { path: "/security", redirect: "/" },
-  { path: "/settings", redirect: "/" },
+  {
+    path: "/security",
+    name: "Security",
+    component: () => import("../views/Security.vue"),
+    meta: { title: "سیستم امنیتی | BMS" },
+  },
+  {
+    path: "/settings",
+    name: "Settings",
+    component: () => import("../views/Settings.vue"),
+    meta: { title: "تنظیمات | BMS" },
+  },
+  // مدیریت مسیرهای اشتباه (404) -> بازگشت به داشبورد
+  {
+    path: "/:pathMatch(.*)*",
+    redirect: "/",
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+  // اسکرول را هنگام تغییر صفحه به بالا برمی‌گرداند
+  scrollBehavior() {
+    return { top: 0 };
+  },
+});
+
+// گارد مسیریابی: تغییر عنوان تب مرورگر بر اساس صفحه
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || "Smart IoT Dashboard";
+  next();
 });
 
 export default router;
