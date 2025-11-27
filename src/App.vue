@@ -93,7 +93,6 @@ export default {
       userInfo: {
         name: "مدیر سیستم",
         role: "Super Admin",
-        avatar: "https://i.pravatar.cc/150?img=11"
       },
       toasts: [], // لیست پیام‌های سیستم
       toastCounter: 0

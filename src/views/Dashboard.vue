@@ -109,8 +109,6 @@
 <script>
 import axios from 'axios';
 
-// آدرس سرور جاوا
-const API_URL = 'http://localhost:7080';
 
 export default {
   name: "DashboardView",
@@ -138,9 +136,9 @@ export default {
   methods: {
     fetchData() {
       this.loading = true;
-      axios.get(`${API_URL}/devices/dashboard`)
+      this.$http.get("/devices/dashboard")
         .then((response) => {
-          const data = response.data;
+          const data = response;
           this.stats.totalDevices = data.totalDevices;
           this.stats.onlineDevices = data.onlineDevices;
           this.stats.criticalAlerts = data.criticalAlerts;
@@ -155,15 +153,17 @@ export default {
         });
     },
     simulateData() {
-      axios.post(`${API_URL}/devices/scenario/hotel`)
+      this.$http.post("/devices/scenario/hotel")
         .then(() => { this.fetchData(); })
         .catch((error) => console.error(error));
     },
+
     toggleDevice(id) {
-      axios.put(`${API_URL}/devices/${id}/toggle`)
+      this.$http.put(`/devices/${id}/toggle`)
         .then(() => { this.fetchData(); })
         .catch((error) => console.error(error));
     },
+
     formatTime(timeStr) {
       if (!timeStr) return "---";
       try { return new Date(timeStr).toLocaleTimeString("fa-IR"); } 
